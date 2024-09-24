@@ -17,12 +17,12 @@ function getTotalCartPrice(newItemPrice, cartTotal) {
 }
 
 function getMembershipDiscount(cartTotal, isMember) {
-  if (isMember) return cartTotal - cartTotal * (10 / 100);
+  if (isMember === 'true') return (cartTotal - (cartTotal * (discountPercentage/100)));
   else return cartTotal;
 }
 
 function calculateTax(cartTotal) {
-  return cartTotal * (5 / 100);
+  return cartTotal * (taxRate / 100);
 }
 
 function calculateDeliveryDays(shippingMethod, distance) {
@@ -40,7 +40,7 @@ function calculateShippingCost(weight, distance) {
 }
 
 function calculateLoyaltyPoints(purchaseAmount) {
-  return purchaseAmount * 2;
+  return purchaseAmount * loyaltyRate;
 }
 
 app.get('/cart-total', (req, res) => {
@@ -52,7 +52,7 @@ app.get('/cart-total', (req, res) => {
 
 app.get('/membership-discount', (req, res) => {
   let cartTotal = parseFloat(req.query.cartTotal);
-  let isMember = parseFloat(req.query.isMember);
+  let isMember = req.query.isMember;
 
   res.send(getMembershipDiscount(cartTotal, isMember).toString());
 });
