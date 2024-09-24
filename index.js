@@ -1,9 +1,10 @@
 const express = require('express');
 const { resolve } = require('path');
-const { cors } = require('cors');
+const cors = require('cors');
 
 const app = express();
 const port = 3010;
+app.use(cors());
 
 let taxRate = 5;
 let discountPercentage = 10;
@@ -12,7 +13,7 @@ let loyaltyRate = 2;
 app.use(express.static('static'));
 
 function getTotalCartPrice(newItemPrice, cartTotal) {
-  return newItemPrice + cartTotal;
+  return parseInt(newItemPrice + cartTotal);
 }
 
 function getMembershipDiscount(cartTotal, isMember) {
